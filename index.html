@@ -221,6 +221,22 @@ function apply(){
   render(rows, s);
 }
 
+function whyText(c, sort){
+  switch(sort){
+    case 'rating':
+      return `adjusted ${c.bayes.toFixed(2)} = (${c.n}×${c.r.toFixed(1)} + ${M}×${CAT_MEAN}) / ${c.n + M} — raw ${c.r.toFixed(1)} pulled toward category mean ${CAT_MEAN}; the pull fades as reviews grow`;
+    case 'popular':
+      return `popularity = ${c.n.toLocaleString()} reviews all-time · ${c.enr30} enrollments/30d`;
+    case 'newest':
+      return `published ${c.pub} · last updated ${c.upd}`;
+    case 'priceAsc':
+    case 'priceDesc':
+      return `${c.price === 0 ? 'Free' : 'price €' + c.price} · tie-break: recommended score ${c.score.toFixed(3)}`;
+    default:
+      return `recommended score ${c.score.toFixed(3)} = .35·rating(${(c.bayes/5).toFixed(2)}) + .20·completion(${c.comp.toFixed(2)}) + .15·confidence(${c.reviewConf.toFixed(2)}) + .10·momentum(${c.momentum.toFixed(2)}) + .10·freshness(${c.freshness.toFixed(2)}) + .10·relevance(1.00)${c.isNew ? ' + .05 new-course boost' : ''}`;
+  }
+}
+
 function stars(r){
   let h = '';
   for (let i = 0; i < 5; i++){
@@ -267,7 +283,7 @@ function render(rows, s){
           <span>(${c.n.toLocaleString()} reviews)</span>
           <span>${c.enr30}/30d</span>
         </div>
-        <div class="why">recommended score ${c.score.toFixed(3)} = .35·rating(${(c.bayes/5).toFixed(2)}) + .20·completion(${c.comp.toFixed(2)}) + .15·confidence(${c.reviewConf.toFixed(2)}) + .10·momentum(${c.momentum.toFixed(2)}) + .10·freshness(${c.freshness.toFixed(2)}) + .10·relevance(1.00)${c.isNew ? ' + .05 new-course boost' : ''}</div>
+        <div class="why">${whyText(c, s.sort)}</div>
       </div>
       <div class="price">${c.price === 0 ? 'Free' : '€' + c.price}</div>`;
     list.appendChild(d);
