@@ -147,7 +147,7 @@
   </div>
 
   <footer>
-    RULES: filters narrow, never reorder · AND across facets, OR within a facet · explicit sorts are deterministic · "Recommended" = 0.35·bayesRating + 0.20·completion + 0.15·reviewConfidence + 0.10·momentum + 0.10·freshness + 0.10·relevance (+ bounded new-course boost)
+    "Recommended" = 0.35·bayesRating + 0.15·reviewConfidence + 0.20·completion + 0.10·momentum + 0.10·freshness + 0.10·relevance (+ bounded new-course boost) · bayesRating = (v·R + m·C) / (v + m) — v = reviews, R = raw average, C = category mean (4.35), m = confidence threshold (50) · RULES: filters narrow, never reorder · AND across facets, OR within a facet · explicit sorts are deterministic
   </footer>
 </div>
 
@@ -233,7 +233,7 @@ function whyText(c, sort){
     case 'priceDesc':
       return `${c.price === 0 ? 'Free' : 'price €' + c.price} · tie-break: recommended score ${c.score.toFixed(3)}`;
     default:
-      return `recommended score ${c.score.toFixed(3)} = .35·rating(${(c.bayes/5).toFixed(2)}) + .20·completion(${c.comp.toFixed(2)}) + .15·confidence(${c.reviewConf.toFixed(2)}) + .10·momentum(${c.momentum.toFixed(2)}) + .10·freshness(${c.freshness.toFixed(2)}) + .10·relevance(1.00)${c.isNew ? ' + .05 new-course boost' : ''}`;
+      return `recommended score ${c.score.toFixed(3)} = .35·rating(${(c.bayes/5).toFixed(2)}) + .15·confidence(${c.reviewConf.toFixed(2)}) + .20·completion(${c.comp.toFixed(2)}) + .10·momentum(${c.momentum.toFixed(2)}) + .10·freshness(${c.freshness.toFixed(2)}) + .10·relevance(1.00)${c.isNew ? ' + .05 new-course boost' : ''}`;
   }
 }
 
